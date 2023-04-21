@@ -26,7 +26,9 @@
 <%
 =end%>
 
-<%= form_for( @user , remote: true) do |f| %>
+<%
+=begin%>
+ <%= form_for( @user , remote: true) do |f| %>
   <%= f.label :username, "Username:" %>
   <%= f.text_field :username %><br><br>
   <%= f.label :email, "Email:" %>
@@ -34,4 +36,26 @@
   <%= f.label :password, 'Password:' %>
   <%= f.password_field :password %><br><br>
   <%= f.submit "Submit" %>
+<% end %> 
+<%
+=end%>
+
+<%= form_with model: @user do |form| %>
+<% if @user.errors.any? %>
+  <div id="error_explanation">
+    <h2> <%= pluralize(@user.errors.count, "error") %> Prohibited this user from being edited </h2>
+    <ul>
+    <% @user.errors.each do |error| %>
+      <li> <%= error.full_message %> </li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
+  <%= form.label :username %>
+  <%= form.text_field :username %><br>
+  <%= form.label :email %>
+  <%= form.email_field :email %><br>
+  <%= form.label :password %>
+  <%= form.password_field :password %><br>
+  <%= form.submit 'Submit' %>
 <% end %>
